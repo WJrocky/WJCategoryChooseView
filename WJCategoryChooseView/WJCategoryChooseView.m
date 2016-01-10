@@ -17,8 +17,9 @@ static NSString *const footIndentifier = @"foot";
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        UIView * view = [[[NSBundle mainBundle]loadNibNamed:@"WJCategoryChooseView" owner:self options:nil]lastObject];
+        UICollectionView * view = [[[NSBundle mainBundle]loadNibNamed:@"WJCategoryChooseView" owner:self options:nil]lastObject];
         view.frame = self.bounds;
+        self.categoryChooseView = view;
         view.backgroundColor = [UIColor brownColor];
         view.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:view];
@@ -121,12 +122,42 @@ static NSString *const footIndentifier = @"foot";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    categoryChooseDataModel *firstModel = [_dataArray[indexPath.section] objectAtIndex:0];
     categoryChooseDataModel *model = [_dataArray[indexPath.section] objectAtIndex:indexPath.row];
-    if (model.isChosen) {
-        model.isChosen = NO;
-        [self.categoryChooseView reloadItemsAtIndexPaths:@[indexPath]];
+
+    if ([firstModel.title isEqualToString:@"全部"] && indexPath.row == 0) {
+        if (firstModel.isChosen) {
+            firstModel.isChosen = NO;
+        } else {
+            firstModel.isChosen = YES;
+        }
+        NSIndexPath *firstItemPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        NSMutableArray *Paths = [NSMutableArray array];
+        [Paths addObject:firstItemPath];
+        for (int i = 1; i < [_dataArray[indexPath.section] count]; i++) {
+            categoryChooseDataModel *model = [_dataArray[indexPath.section] objectAtIndex:i];
+            NSIndexPath *Path = [NSIndexPath indexPathForItem:i inSection:indexPath.section];
+            if (model.isChosen) {
+                model.isChosen = NO;
+                [Paths addObject:Path];
+            }
+        }
+        [self.categoryChooseView reloadItemsAtIndexPaths:Paths];
+    } else if ([firstModel.title isEqualToString:@"全部"]&&indexPath.row != 0) {
+        if (model.isChosen) {
+            model.isChosen = NO;
+        } else {
+            model.isChosen = YES;
+            firstModel.isChosen = NO;
+        }
+        NSIndexPath *firstItemPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        [self.categoryChooseView reloadItemsAtIndexPaths:@[indexPath,firstItemPath]];
     } else {
-        model.isChosen = YES;
+        if (model.isChosen) {
+            model.isChosen = NO;
+        } else {
+            model.isChosen = YES;
+        }
         [self.categoryChooseView reloadItemsAtIndexPaths:@[indexPath]];
     }
     if (self.delegate !=nil && [self.delegate respondsToSelector:@selector(categoryChooseViewDidSelectCell:)]) {

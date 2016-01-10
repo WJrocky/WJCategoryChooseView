@@ -20,7 +20,7 @@
         categoryChooseDataModel *model2 = [[categoryChooseDataModel alloc]initWithTitle:@"唐僧" Value:nil IsChosen:NO];
         categoryChooseDataModel *model3 = [[categoryChooseDataModel alloc]initWithTitle:@"孙悟空" Value:nil IsChosen:YES];
         categoryChooseDataModel *model4 = [[categoryChooseDataModel alloc]initWithTitle:@"猪八戒" Value:nil IsChosen:NO];
-        categoryChooseDataModel *model5 = [[categoryChooseDataModel alloc]initWithTitle:@"沙和尚" Value:nil IsChosen:NO];
+        categoryChooseDataModel *model5 = [[categoryChooseDataModel alloc]initWithTitle:@"全部" Value:nil IsChosen:NO];
     NSMutableArray *sectionArray1 = [NSMutableArray arrayWithObjects:model5,model2,model3,model4,model1, nil];
     categoryChooseDataModel *model6 = [[categoryChooseDataModel alloc]initWithTitle:@"三国演义" Value:nil IsChosen:NO];
     categoryChooseDataModel *model7 = [[categoryChooseDataModel alloc]initWithTitle:@"刘备" Value:nil IsChosen:YES];

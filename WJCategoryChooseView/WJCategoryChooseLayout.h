@@ -17,4 +17,5 @@
 @property(nonatomic, strong)NSMutableDictionary *cellAttributesDic;
 @property(nonatomic, strong)NSMutableDictionary *viewAttributesDic;
 @property(nonatomic, strong)NSMutableArray *dataArray;
+
 @end
